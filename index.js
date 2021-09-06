@@ -35,9 +35,18 @@ app.post('/events', jsonParser, (req, res) => {
     getEvents(res)
 })
 
+app.put('/events/:id', jsonParser, (req, res) => {
+    updateEvent(req)
+    getEvents(res)
+})
+
 async function newEvent(req){
     try {
-        const newEvent = await Event.create({date: req.body.date, title: req.body.title, details: req.body.details})
+        const newEvent = await Event.create({
+            date: req.body.date, 
+            title: req.body.title, 
+            details: req.body.details
+        })
         console.log(`created new event ${newEvent.title}`)
     } catch (error) {
         console.log(error)        
@@ -49,6 +58,23 @@ async function getEvents(res){
     res.send(JSON.stringify({
         events : events,
     }))
+}
+
+async function updateEvent(req){
+    try {
+        const updatedEvent = await Event.update({
+            date: req.body.date, 
+            title: req.body.title, 
+            details: req.body.details
+        },{
+            where: {id: req.body.id}
+        }
+        
+        )
+        console.log(`updated event ${updatedEvent.title}`)
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const Event = sequelize.define('Event', {
