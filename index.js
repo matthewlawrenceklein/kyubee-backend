@@ -5,11 +5,23 @@ const app = express()
 const port = 3000
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
+const seedEvents = require('./seeds.js')
 
 async function main(){
     await sequelize.sync();
+    loadSeeds(seedEvents)
 }
 main()
+
+const loadSeeds = async() => {
+    await seedEvents.map(event => {
+        Event.create({
+            date: event.date, 
+            title: event.title, 
+            details: event.details
+        })
+    })
+}
 
 const jsonParser = bodyParser.json()
 const corsOptions ={
