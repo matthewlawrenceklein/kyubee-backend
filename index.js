@@ -53,9 +53,7 @@ async function createEvent(req){
             details: req.body.details
         })
         console.log(`created new event ${newEvent.title}`)
-    } catch (error) {
-        console.log(error)        
-    }
+    } catch (error) {console.log(error)}
 }
 
 async function deleteEvent(req){
@@ -65,9 +63,7 @@ async function deleteEvent(req){
               id: req.body.id
             }
         });
-    } catch (error) {
-        console.log(error)
-    }
+    } catch (error) {console.log(error)}
 }
 
 async function getEvents(res){
@@ -89,9 +85,7 @@ async function updateEvent(req){
         
         )
         console.log(`updated event ${updatedEvent.title}`)
-    } catch (error) {
-        console.log(error)
-    }
+    } catch (error) {console.log(error)}
 }
 
 const Event = sequelize.define('Event', {
