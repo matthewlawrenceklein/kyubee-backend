@@ -31,7 +31,7 @@ app.get('/events', jsonParser, (req, res) => {
 })
   
 app.post('/events', jsonParser, (req, res) => {
-    newEvent(req)
+    createEvent(req)
     getEvents(res)
 })
 
@@ -40,7 +40,12 @@ app.put('/events/:id', jsonParser, (req, res) => {
     getEvents(res)
 })
 
-async function newEvent(req){
+app.delete('/events/:id', jsonParser, (req, res) => {
+    deleteEvent(req)
+    getEvents(res)
+})
+
+async function createEvent(req){
     try {
         const newEvent = await Event.create({
             date: req.body.date, 
@@ -50,6 +55,18 @@ async function newEvent(req){
         console.log(`created new event ${newEvent.title}`)
     } catch (error) {
         console.log(error)        
+    }
+}
+
+async function deleteEvent(req){
+    try {
+        await Event.destroy({
+            where: {
+              id: req.body.id
+            }
+        });
+    } catch (error) {
+        console.log(error)
     }
 }
 
